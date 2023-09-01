@@ -120,6 +120,9 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
+# Add the following line to specify the STATIC_ROOT directory.
+STATIC_ROOT = os.path.join(BASE_DIR, 'static_root')
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
