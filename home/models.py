@@ -40,9 +40,13 @@ class MapBlock(BaseStamp):
 
 class BlogPost(BaseStamp, models.Model):
     title = models.CharField(max_length=300)
+    subtitle = models.TextField(blank=True)  # Allow it to be blank
     slug = models.SlugField(unique=True)
     publication_date = models.DateTimeField(auto_now_add=True)
     last_modified = models.DateTimeField(auto_now=True)
+    date = models.CharField(max_length=50, default='nodate')  # Add date field
+    category = models.CharField(max_length=100, default='Uncategorized')  # Add category field
+
     
     content_blocks = models.ManyToManyField(ContentBlock)
 
