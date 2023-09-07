@@ -40,7 +40,6 @@ class MapBlock(BaseStamp):
 
 class BlogPost(BaseStamp, models.Model):
     title = models.CharField(max_length=300)
-    subtitle = models.TextField(blank=True)  # Allow it to be blank
     slug = models.SlugField(unique=True)
     publication_date = models.DateTimeField(auto_now_add=True)
     last_modified = models.DateTimeField(auto_now=True)
