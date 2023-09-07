@@ -43,8 +43,6 @@ class BlogPost(BaseStamp, models.Model):
     slug = models.SlugField(unique=True)
     publication_date = models.DateTimeField(auto_now_add=True)
     last_modified = models.DateTimeField(auto_now=True)
-    date = models.CharField(max_length=50, default='nodate')  # Add date field
-    category = models.CharField(max_length=100, default='Uncategorized')  # Add category field
 
     
     content_blocks = models.ManyToManyField(ContentBlock)
