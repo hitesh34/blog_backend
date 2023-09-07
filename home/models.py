@@ -44,6 +44,7 @@ class BlogPost(BaseStamp):
     publication_date = models.DateTimeField(auto_now_add=True)
     last_modified = models.DateTimeField(auto_now=True)
     date = models.DateField(default=timezone.now)  # Add default value for date field
+    author_image = models.ImageField(upload_to='blog_images/', default='blog_images/authorlogo.jpg')
 
     content_blocks = models.ManyToManyField(ContentBlock)
 
