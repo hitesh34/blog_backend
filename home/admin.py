@@ -12,15 +12,12 @@ class CommentAdmin(admin.ModelAdmin):
     def reject_comments(self, request, queryset):
         queryset.delete()
 
-@admin.register(BlogPost)
-class BlogPostAdmin(admin.ModelAdmin):
-    list_display = ('title', 'subtitle', 'author', 'created_at')  # Add 'subtitle' to the list_display
+admin.site.register(Comment, CommentAdmin)
 
-# Register other models as before
 admin.site.register(TextBlock)
 admin.site.register(ImageBlock)
 admin.site.register(MapBlock)
+admin.site.register(BlogPost)
 admin.site.register(ContentBlock)
 admin.site.register(DataTableBlock)
 admin.site.register(UserBlock)
-admin.site.register(Comment, CommentAdmin)
