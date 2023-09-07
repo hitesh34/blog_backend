@@ -32,19 +32,19 @@ class ImageBlock(BaseStamp):
     def image_url(self):
         return self.image.url
 
-
 class MapBlock(BaseStamp):
     latitude = models.FloatField()
     longitude = models.FloatField()
     zoom_level = models.PositiveIntegerField(default=10)
 
-class BlogPost(BaseStamp, models.Model):
+class BlogPost(BaseStamp):
     title = models.CharField(max_length=300)
+    subtitle = models.CharField(max_length=500, blank=True)  # Allow blank values
     slug = models.SlugField(unique=True)
     publication_date = models.DateTimeField(auto_now_add=True)
     last_modified = models.DateTimeField(auto_now=True)
+    date = models.DateField(default=timezone.now)  # Add default value for date field
 
-    
     content_blocks = models.ManyToManyField(ContentBlock)
 
     class Meta:
@@ -60,7 +60,6 @@ class UserBlock(BaseStamp):
 
     def image_url(self):
         return self.image.url
-
 
 class Comment(models.Model):
     author = models.CharField(max_length=100)

@@ -12,12 +12,15 @@ class CommentAdmin(admin.ModelAdmin):
     def reject_comments(self, request, queryset):
         queryset.delete()
 
-admin.site.register(Comment, CommentAdmin)
+@admin.register(BlogPost)  # Register BlogPost with the admin site
+class BlogPostAdmin(admin.ModelAdmin):
+    list_display = ('title', 'subtitle', 'publication_date', 'last_modified', 'date')
+    prepopulated_fields = {'slug': ('title',)}
 
+admin.site.register(Comment, CommentAdmin)
 admin.site.register(TextBlock)
 admin.site.register(ImageBlock)
 admin.site.register(MapBlock)
-admin.site.register(BlogPost)
 admin.site.register(ContentBlock)
 admin.site.register(DataTableBlock)
 admin.site.register(UserBlock)
