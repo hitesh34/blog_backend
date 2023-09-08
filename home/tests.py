@@ -11,13 +11,8 @@ from .models import BlogPost  # Import your BlogPost model
 
 class BlogPostTestCase(TestCase):
     def test_blogpost_creation(self):
-        # Create the BlogPost instance in the database
         post = BlogPost.objects.create(title="Test Post", slug="test-post")
-
-        # Retrieve the BlogPost instance from the database using the slug
         retrieved_post = BlogPost.objects.get(slug="test-post")
-
-        # Make assertions based on the retrieved BlogPost instance
         self.assertEqual(retrieved_post.title, "Test Post")
 
 class TextBlockTestCase(TestCase):
