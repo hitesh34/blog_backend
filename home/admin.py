@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import BlogPost, TextBlock, ImageBlock, MapBlock, ContentBlock, DataTableBlock, UserBlock, Comment
+from .models import BlogPost, TextBlock, ImageBlock, MapBlock, ContentBlock, DataTableBlock, UserBlock, Comment, CommentValidation
 
 class CommentAdmin(admin.ModelAdmin):
     list_display = ('author', 'content', 'is_approved', 'created_at', 'post')
@@ -24,3 +24,5 @@ admin.site.register(MapBlock)
 admin.site.register(ContentBlock)
 admin.site.register(DataTableBlock)
 admin.site.register(UserBlock)
+admin.site.register(CommentValidation)
+

@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.contenttypes.fields import GenericForeignKey
 from django.utils import timezone
 from django.contrib.contenttypes.models import ContentType
+from django.contrib.auth.models import User
 
 class BaseStamp(models.Model):
     time_created = models.DateTimeField(default=timezone.now)
@@ -61,6 +62,11 @@ class UserBlock(BaseStamp):
 
     def image_url(self):
         return self.image.url
+    
+class CommentValidation(models.Model):
+    comment = models.OneToOneField('Comment', on_delete=models.CASCADE, related_name='validation')
+    is_validated = models.BooleanField(default=False)
+    validator = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, related_name='validated_comments')
 
 class Comment(models.Model):
     author = models.CharField(max_length=100)
@@ -68,7 +74,9 @@ class Comment(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     is_approved = models.BooleanField(default=False)
     post = models.ForeignKey(BlogPost, on_delete=models.CASCADE)
-    order = models.PositiveIntegerField(default=0)  # Add this field
+    order = models.PositiveIntegerField(default=0)
+    comment_validation = models.OneToOneField('CommentValidation', on_delete=models.CASCADE, null=True, related_name='+')
+
 
     class Meta:
         ordering = ['order', '-created_at']  # Order by 'order' field and then 'created_at'

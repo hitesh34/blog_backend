@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import BlogPost, TextBlock, ImageBlock, MapBlock, ContentBlock, DataTableBlock, UserBlock, Comment
+from .models import BlogPost, TextBlock, ImageBlock, MapBlock, ContentBlock, DataTableBlock, UserBlock, Comment, CommentValidation
 
 class TextBlockSerializer(serializers.ModelSerializer):
     class Meta:
@@ -79,12 +79,13 @@ class BlogPostSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-class CommentSerializer(serializers.ModelSerializer):
+class CommentValidationSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Comment
+        model = CommentValidation
         fields = '__all__'
 
-
+class CommentSerializer(serializers.ModelSerializer):
+    validation = CommentValidationSerializer(read_only=True)
 
 
 # class BlogPostSerializer(serializers.ModelSerializer):

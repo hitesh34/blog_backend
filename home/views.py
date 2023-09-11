@@ -7,6 +7,15 @@ from .serializers import (
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
+from rest_framework.generics import RetrieveAPIView
+from .models import BlogPost
+from .serializers import BlogPostSerializer
+from rest_framework.decorators import action
+
+
+class BlogPostDetailView(RetrieveAPIView):
+    queryset = BlogPost.objects.all()
+    serializer_class = BlogPostSerializer
 
 class TextBlockViewSet(viewsets.ModelViewSet):
     queryset = TextBlock.objects.all()
@@ -39,6 +48,21 @@ class UserBlockViewSet(viewsets.ModelViewSet):
 class CommentViewSet(viewsets.ModelViewSet):
     queryset = Comment.objects.all()
     serializer_class = CommentSerializer
+
+    @action(detail=True, methods=['post'])
+    def validate_comment(self, request, pk=None):
+        comment = self.get_object()
+        comment.is_approved = True
+        comment.save()
+        return Response({'message': 'Comment validated successfully.'}, status=status.HTTP_200_OK)
+
+    @action(detail=True, methods=['post'])
+    def reject_comment(self, request, pk=None):
+        comment = self.get_object()
+        comment.is_approved = False
+        comment.save()
+        return Response({'message': 'Comment rejected.'}, status=status.HTTP_200_OK)
+
 
 class LatestPostIdView(APIView):
     def get(self, request, *args, **kwargs):
