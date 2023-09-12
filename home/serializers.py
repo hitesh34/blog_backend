@@ -78,14 +78,16 @@ class BlogPostSerializer(serializers.ModelSerializer):
         model = BlogPost
         fields = '__all__'
 
+class CommentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Comment
+        fields = '__all__'
 
 class CommentValidationSerializer(serializers.ModelSerializer):
     class Meta:
         model = CommentValidation
         fields = '__all__'
 
-class CommentSerializer(serializers.ModelSerializer):
-    validation = CommentValidationSerializer(read_only=True)
 
 
 # class BlogPostSerializer(serializers.ModelSerializer):

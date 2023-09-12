@@ -10,8 +10,6 @@ from rest_framework import status
 from rest_framework.generics import RetrieveAPIView
 from .models import BlogPost
 from .serializers import BlogPostSerializer
-from rest_framework.decorators import action
-
 
 class BlogPostDetailView(RetrieveAPIView):
     queryset = BlogPost.objects.all()
@@ -49,24 +47,8 @@ class CommentViewSet(viewsets.ModelViewSet):
     queryset = Comment.objects.all()
     serializer_class = CommentSerializer
 
-    @action(detail=True, methods=['post'])
-    def validate_comment(self, request, pk=None):
-        comment = self.get_object()
-        comment.is_approved = True
-        comment.save()
-        return Response({'message': 'Comment validated successfully.'}, status=status.HTTP_200_OK)
-
-    @action(detail=True, methods=['post'])
-    def reject_comment(self, request, pk=None):
-        comment = self.get_object()
-        comment.is_approved = False
-        comment.save()
-        return Response({'message': 'Comment rejected.'}, status=status.HTTP_200_OK)
-
-
 class LatestPostIdView(APIView):
     def get(self, request, *args, **kwargs):
         latest_comment = Comment.objects.last()
         latest_post_id = latest_comment.post.id + 1 if latest_comment else 1
         return Response({'latest_post_id': latest_post_id})
-
