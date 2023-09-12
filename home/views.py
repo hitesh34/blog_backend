@@ -52,3 +52,32 @@ class LatestPostIdView(APIView):
         latest_comment = Comment.objects.last()
         latest_post_id = latest_comment.post.id + 1 if latest_comment else 1
         return Response({'latest_post_id': latest_post_id})
+    
+class CommentApprovalView(APIView):
+    def post(self, request, comment_id):
+        try:
+            comment = Comment.objects.get(pk=comment_id)
+        except Comment.DoesNotExist:
+            return Response({'error': 'Comment not found'}, status=status.HTTP_404_NOT_FOUND)
+
+        if comment.is_approved:
+            return Response({'message': 'Comment is already approved'})
+
+        comment.is_approved = True
+        comment.save()
+        return Response({'message': 'Comment approved'})
+
+class CommentRejectionView(APIView):
+    def post(self, request, comment_id):
+        try:
+            comment = Comment.objects.get(pk=comment_id)
+        except Comment.DoesNotExist:
+            return Response({'error': 'Comment not found'}, status=status.HTTP_404_NOT_FOUND)
+
+        if not comment.is_approved:
+            return Response({'message': 'Comment is already rejected'})
+
+        comment.is_approved = False
+        comment.save()
+        return Response({'message': 'Comment rejected'})
+
