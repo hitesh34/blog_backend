@@ -53,6 +53,10 @@ class LatestPostIdView(APIView):
         latest_post_id = latest_comment.post.id + 1 if latest_comment else 1
         return Response({'latest_post_id': latest_post_id})
     
+class AllCommentsView(viewsets.ReadOnlyModelViewSet):
+    queryset = Comment.objects.all()
+    serializer_class = CommentSerializer
+
 class CommentApprovalView(APIView):
     def post(self, request, comment_id):
         try:
@@ -80,4 +84,3 @@ class CommentRejectionView(APIView):
         comment.is_approved = False
         comment.save()
         return Response({'message': 'Comment rejected'})
-

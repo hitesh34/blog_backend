@@ -77,6 +77,5 @@ class Comment(models.Model):
     order = models.PositiveIntegerField(default=0)
     comment_validation = models.OneToOneField('CommentValidation', on_delete=models.CASCADE, null=True, related_name='+')
 
-
     class Meta:
         ordering = ['order', '-created_at']  # Order by 'order' field and then 'created_at'
