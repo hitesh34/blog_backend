@@ -79,6 +79,8 @@ class BlogPostSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class CommentSerializer(serializers.ModelSerializer):
+    post_title = serializers.ReadOnlyField(source='post.title')  # Add this line
+
     class Meta:
         model = Comment
         fields = '__all__'

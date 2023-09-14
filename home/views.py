@@ -10,6 +10,7 @@ from rest_framework import status
 from rest_framework.generics import RetrieveAPIView
 from .models import BlogPost
 from .serializers import BlogPostSerializer
+from django.db.models import F
 
 class BlogPostDetailView(RetrieveAPIView):
     queryset = BlogPost.objects.all()
@@ -52,10 +53,12 @@ class LatestPostIdView(APIView):
         latest_comment = Comment.objects.last()
         latest_post_id = latest_comment.post.id + 1 if latest_comment else 1
         return Response({'latest_post_id': latest_post_id})
-    
+
+
 class AllCommentsView(viewsets.ReadOnlyModelViewSet):
-    queryset = Comment.objects.all()
+    queryset = Comment.objects.annotate(post_title=F('post__title'))
     serializer_class = CommentSerializer
+
 
 class CommentApprovalView(APIView):
     def post(self, request, comment_id):
